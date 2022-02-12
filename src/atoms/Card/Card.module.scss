@@ -1,0 +1,7 @@
+@use "@fluentui/react/dist/sass/References";
+
+.card {
+  @include References.ms-bgColor-white;
+  @include References.ms-depth-16;
+  padding: 20px;
+}

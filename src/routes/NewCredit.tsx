@@ -1,14 +1,15 @@
 import {
   DatePicker,
   DayOfWeek,
+  DefaultButton,
   PrimaryButton,
   Stack,
   Text,
   TextField,
-} from "@fluentui/react";
-import { FC, FormEventHandler, useState } from "react";
-import CardOnScreenCenter from "../molecules/CardOnScreenCenter";
-import storage from "../utils/storage";
+} from '@fluentui/react';
+import { FC, FormEventHandler, useState } from 'react';
+import CardOnScreenCenter from '../molecules/CardOnScreenCenter';
+import storage from '../utils/storage';
 
 const NewCredit: FC = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -17,8 +18,8 @@ const NewCredit: FC = () => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const name = String(formData.get("name"));
-    const cost = parseFloat(String(formData.get("cost")) || "0");
+    const name = String(formData.get('name'));
+    const cost = parseFloat(String(formData.get('cost')) || '0');
 
     storage.addCredit(name, cost, {
       startDate: selectedDate,
@@ -51,6 +52,7 @@ const NewCredit: FC = () => {
             showMonthPickerAsOverlay
           />
           <Stack.Item align="end">
+            <DefaultButton text="Назад" type="button" />
             <PrimaryButton text="Создать" type="submit" />
           </Stack.Item>
         </Stack>

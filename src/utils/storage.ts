@@ -1,17 +1,18 @@
-import { v4 as uuid4 } from "uuid";
-import Credit from "./credit.class";
+import { v4 as uuid4 } from 'uuid';
+import Credit from './credit.class';
+import Observable from './observable.abstract';
 
 export type CreditsMap = Map<string, Credit>;
-export type CreditsStorageListener = (data: CreditsMap) => void;
 
-class Storage {
-  private _credits: CreditsMap = new Map();
-  private listeners = new Set<CreditsStorageListener>();
+class Storage extends Observable<CreditsMap> {
+  private _credits: CreditsMap;
 
-  private notifyListeners() {
-    for (const listener of this.listeners) {
-      listener(this._credits);
-    }
+  constructor() {
+    const credits: CreditsMap = new Map();
+
+    super(credits);
+
+    this._credits = credits;
   }
 
   get credits() {
@@ -23,16 +24,6 @@ class Storage {
     this.credits.set(uuid, new Credit(name, cost, additionalInfo));
 
     this.notifyListeners();
-  }
-
-  /** Returns cleanup function */
-  addListener(listener: CreditsStorageListener) {
-    this.listeners.add(listener);
-    return () => this.removeListener(listener);
-  }
-
-  removeListener(listener: CreditsStorageListener) {
-    this.listeners.delete(listener);
   }
 }
 

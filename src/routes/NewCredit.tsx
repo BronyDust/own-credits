@@ -8,6 +8,7 @@ import {
   TextField,
 } from '@fluentui/react';
 import { FC, FormEventHandler, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useStorage from '../hooks/useStorage';
 import CardOnScreenCenter from '../molecules/CardOnScreenCenter';
 import storage from '../utils/storage';
@@ -15,6 +16,7 @@ import storage from '../utils/storage';
 const NewCredit: FC = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const hasCredits = useStorage((storage) => storage.size > 0);
+  const navigate = useNavigate();
 
   const submitHandler: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
@@ -56,7 +58,11 @@ const NewCredit: FC = () => {
           <Stack.Item align="end">
             <Stack horizontal tokens={{ childrenGap: 10 }}>
               {hasCredits && (
-                <DefaultButton text="Назад" type="button" href="/" />
+                <DefaultButton
+                  text="Назад"
+                  type="button"
+                  onClick={() => navigate('/')}
+                />
               )}
               <PrimaryButton text="Создать" type="submit" />
             </Stack>

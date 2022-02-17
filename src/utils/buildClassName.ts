@@ -8,9 +8,5 @@
 export default function buildClassName(
   ...classes: (string | false | undefined)[]
 ) {
-  return classes.reduce<string>((className, current) => {
-    if (current) return `${className} ${current}`;
-
-    return className;
-  }, "");
+  return classes.filter((c) => c).join(' ');
 }

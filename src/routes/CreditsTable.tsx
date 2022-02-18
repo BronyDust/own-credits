@@ -3,8 +3,10 @@ import {
   DefaultButton,
   DetailsList,
   IColumn,
+  IconButton,
   Stack,
   Text,
+  TooltipHost,
 } from '@fluentui/react';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -38,6 +40,20 @@ const columns: IColumn[] = [
         <>
           <strong>{item.debt}₽</strong> / {item.cost}₽
         </>
+      );
+    },
+  },
+  {
+    key: 'actions',
+    name: 'Действия',
+    minWidth: 200,
+    onRender(item: CreditListItem) {
+      return (
+        <Stack horizontal tokens={{ childrenGap: 10 }}>
+          <TooltipHost content="Удалить">
+            <IconButton iconProps={{ iconName: 'Delete' }} />
+          </TooltipHost>
+        </Stack>
       );
     },
   },

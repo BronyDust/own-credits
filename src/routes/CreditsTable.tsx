@@ -11,6 +11,7 @@ import {
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MainSurface from '../atoms/MainSurface';
+import VerticallyCentered from '../atoms/VerticallyCentered';
 import useStorage from '../hooks/useStorage';
 
 type CreditListItem = {
@@ -28,7 +29,11 @@ const columns: IColumn[] = [
     minWidth: 300,
     maxWidth: 500,
     onRender(item: CreditListItem) {
-      return <strong>{item.name}</strong>;
+      return (
+        <VerticallyCentered>
+          <strong>{item.name}</strong>
+        </VerticallyCentered>
+      );
     },
   },
   {
@@ -37,9 +42,20 @@ const columns: IColumn[] = [
     minWidth: 200,
     onRender(item: CreditListItem) {
       return (
-        <>
-          <strong>{item.debt}₽</strong> / {item.cost}₽
-        </>
+        <VerticallyCentered>
+          <strong>{item.debt}₽</strong>/{item.cost}₽
+        </VerticallyCentered>
+      );
+    },
+  },
+  {
+    key: 'date',
+    name: 'Дата',
+    minWidth: 200,
+    onRender(item: CreditListItem) {
+      const date = new Date(item.date);
+      return (
+        <VerticallyCentered>{date.toLocaleDateString()}</VerticallyCentered>
       );
     },
   },

@@ -1,4 +1,11 @@
-import { DefaultButton, DetailsList, Stack, Text } from '@fluentui/react';
+import {
+  CheckboxVisibility,
+  DefaultButton,
+  DetailsList,
+  IColumn,
+  Stack,
+  Text,
+} from '@fluentui/react';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MainSurface from '../atoms/MainSurface';
@@ -12,10 +19,35 @@ type CreditListItem = {
   debt: number;
 };
 
+const columns: IColumn[] = [
+  {
+    key: 'name',
+    name: 'Название / назначение кредита',
+    minWidth: 300,
+    maxWidth: 500,
+    onRender(item: CreditListItem) {
+      return <strong>{item.name}</strong>;
+    },
+  },
+  {
+    key: 'debt',
+    name: 'Долг',
+    minWidth: 200,
+    onRender(item: CreditListItem) {
+      return (
+        <>
+          <strong>{item.debt}₽</strong> / {item.cost}₽
+        </>
+      );
+    },
+  },
+];
+
 const CreditsTable: FC = () => {
   const navigate = useNavigate();
-  const creditsAsItems = useStorage((credits) => {
+  const [creditsAsItems, fullDebt] = useStorage((credits) => {
     const items: CreditListItem[] = [];
+    let fullDebt = 0;
 
     for (const [uid, credit] of credits) {
       const { metaData, debt } = credit;
@@ -28,9 +60,11 @@ const CreditsTable: FC = () => {
         date,
         debt,
       });
+
+      fullDebt += debt;
     }
 
-    return items;
+    return [items, fullDebt];
   });
 
   return (
@@ -50,7 +84,19 @@ const CreditsTable: FC = () => {
           </DefaultButton>
         </Stack.Item>
         <Stack.Item>
-          <DetailsList disableSelectionZone items={creditsAsItems} />
+          <DetailsList
+            disableSelectionZone
+            items={creditsAsItems}
+            checkboxVisibility={CheckboxVisibility.hidden}
+            getKey={(item) => item.uid}
+            columns={columns}
+          />
+        </Stack.Item>
+        <Stack.Item>
+          <Text>
+            <strong>Общий долг: </strong>
+            {fullDebt}₽
+          </Text>
         </Stack.Item>
       </Stack>
     </MainSurface>

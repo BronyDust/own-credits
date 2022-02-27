@@ -5,11 +5,12 @@ import {
   IColumn,
   IconButton,
   Stack,
+  StackItem,
   Text,
   TooltipHost,
 } from '@fluentui/react';
 import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MainSurface from '../atoms/MainSurface';
 import VerticallyCentered from '../atoms/VerticallyCentered';
 import useStorage from '../hooks/useStorage';
@@ -25,14 +26,48 @@ type CreditListItem = {
 
 const columns: IColumn[] = [
   {
+    key: 'actions',
+    name: 'Действия',
+    minWidth: 74,
+    maxWidth: 74,
+    onRender(item: CreditListItem) {
+      return (
+        <Stack horizontal tokens={{ childrenGap: 10 }}>
+          <StackItem>
+            <DeleteCreditDialog creditUUID={item.uid}>
+              {(open) => (
+                <TooltipHost content="Удалить">
+                  <IconButton
+                    onClick={open}
+                    iconProps={{ iconName: 'Delete' }}
+                  />
+                </TooltipHost>
+              )}
+            </DeleteCreditDialog>
+          </StackItem>
+          <StackItem>
+            <TooltipHost content="Открыть">
+              <Link to={`/credit/${item.uid}`}>
+                <IconButton as="span" iconProps={{ iconName: 'OpenFile' }} />
+              </Link>
+            </TooltipHost>
+          </StackItem>
+        </Stack>
+      );
+    },
+  },
+  {
     key: 'name',
     name: 'Название / назначение кредита',
-    minWidth: 300,
-    maxWidth: 500,
+    minWidth: 250,
+    maxWidth: 250,
+    isResizable: true,
     onRender(item: CreditListItem) {
       return (
         <VerticallyCentered>
-          <strong>{item.name}</strong>
+          <Link to={`/credit/${item.uid}`}>
+            <strong>{item.name}</strong>
+          </Link>
         </VerticallyCentered>
       );
     },
@@ -57,24 +92,6 @@ const columns: IColumn[] = [
       const date = new Date(item.date);
       return (
         <VerticallyCentered>{date.toLocaleDateString()}</VerticallyCentered>
-      );
-    },
-  },
-  {
-    key: 'actions',
-    name: 'Действия',
-    minWidth: 200,
-    onRender(item: CreditListItem) {
-      return (
-        <DeleteCreditDialog creditUUID={item.uid}>
-          {(open) => (
-            <Stack horizontal tokens={{ childrenGap: 10 }}>
-              <TooltipHost content="Удалить">
-                <IconButton onClick={open} iconProps={{ iconName: 'Delete' }} />
-              </TooltipHost>
-            </Stack>
-          )}
-        </DeleteCreditDialog>
       );
     },
   },
@@ -122,6 +139,10 @@ const CreditsTable: FC = () => {
         </Stack.Item>
         <Stack.Item>
           <DetailsList
+            onItemContextMenu={(e) => {
+              console.log(e);
+              return false;
+            }}
             disableSelectionZone
             items={creditsAsItems}
             checkboxVisibility={CheckboxVisibility.hidden}

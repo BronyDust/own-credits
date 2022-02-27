@@ -88,13 +88,13 @@ const CreditsTable: FC = () => {
 
     for (const [uid, credit] of credits) {
       const { metaData, debt } = credit;
-      const { date } = metaData.additionalInfo;
+      const { startDate } = metaData.additionalInfo;
 
       items.push({
         uid,
         name: metaData.name,
         cost: metaData.cost,
-        date,
+        date: startDate,
         debt,
       });
 

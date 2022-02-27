@@ -15,6 +15,7 @@ class Credit extends Observable<PaymentsMap> {
   private additionalInfo: any;
 
   constructor(name: string, cost: number, additionalInfo: any = {}) {
+    console.log(additionalInfo);
     const payments: PaymentsMap = new Map();
 
     super(payments);

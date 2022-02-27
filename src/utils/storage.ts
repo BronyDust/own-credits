@@ -32,8 +32,8 @@ class Storage extends Observable<CreditsMap> {
  * serialize them all
  */
 const storage = new Storage();
-storage.addCredit('first', 1000, { date: new Date().toString() });
-storage.addCredit('second', 2000, { date: new Date().toString() });
-storage.addCredit('third', 3000, { date: new Date().toString() });
+storage.addCredit('first', 1000, { startDate: new Date().toString() });
+storage.addCredit('second', 2000, { startDate: new Date().toString() });
+storage.addCredit('third', 3000, { startDate: new Date().toString() });
 
 export default storage;

@@ -28,6 +28,8 @@ const NewCredit: FC = () => {
     storage.addCredit(name, cost, {
       startDate: selectedDate,
     });
+
+    navigate('/');
   };
 
   const dateSelectionHandler = (date: Date | null | undefined) => {

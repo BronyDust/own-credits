@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import MainSurface from '../atoms/MainSurface';
 import VerticallyCentered from '../atoms/VerticallyCentered';
 import useStorage from '../hooks/useStorage';
+import DeleteCreditDialog from '../molecules/DeleteCreditDialog';
 
 type CreditListItem = {
   cost: number;
@@ -65,11 +66,15 @@ const columns: IColumn[] = [
     minWidth: 200,
     onRender(item: CreditListItem) {
       return (
-        <Stack horizontal tokens={{ childrenGap: 10 }}>
-          <TooltipHost content="Удалить">
-            <IconButton iconProps={{ iconName: 'Delete' }} />
-          </TooltipHost>
-        </Stack>
+        <DeleteCreditDialog creditUUID={item.uid}>
+          {(open) => (
+            <Stack horizontal tokens={{ childrenGap: 10 }}>
+              <TooltipHost content="Удалить">
+                <IconButton onClick={open} iconProps={{ iconName: 'Delete' }} />
+              </TooltipHost>
+            </Stack>
+          )}
+        </DeleteCreditDialog>
       );
     },
   },

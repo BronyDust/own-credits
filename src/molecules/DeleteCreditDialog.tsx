@@ -5,6 +5,7 @@ import {
   PrimaryButton,
 } from '@fluentui/react';
 import { FC, useState } from 'react';
+import useStorage from '../hooks/useStorage';
 
 interface IDeleteCreditDialogProps {
   creditUUID: string;
@@ -18,12 +19,27 @@ const DeleteCreditDialog: FC<IDeleteCreditDialogProps> = ({
   const [isVisible, setIsVisible] = useState(false);
   const open = () => setIsVisible(true);
   const close = () => setIsVisible(false);
+  const item = useStorage((data) => data.get(creditUUID));
+
+  if (!item) return null;
 
   return (
     <>
-      <Dialog hidden={isVisible} onDismiss={close}>
+      <Dialog hidden={!isVisible} onDismiss={close}>
+        Вы уверены, что хотите удалить из базы запись{' '}
+        <strong>{item.metaData.name}</strong> и её внутренние записи{' '}
+        <span style={{ whiteSpace: 'nowrap' }}>
+          ({item.paymentsCount} штук)
+        </span>
+        ?
         <DialogFooter>
-          <PrimaryButton onClick={()}>Удалить</PrimaryButton>
+          <PrimaryButton
+            onClick={() => {
+              alert(creditUUID);
+            }}
+          >
+            Удалить
+          </PrimaryButton>
           <DefaultButton onClick={close}>Отменить</DefaultButton>
         </DialogFooter>
       </Dialog>

@@ -64,6 +64,10 @@ class Credit extends Observable<PaymentsMap> {
       additionalInfo: this.additionalInfo,
     };
   }
+
+  get paymentsCount() {
+    return this.payments.size;
+  }
 }
 
 export default Credit;

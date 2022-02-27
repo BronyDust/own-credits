@@ -25,6 +25,12 @@ class Storage extends Observable<CreditsMap> {
 
     this.notifyListeners();
   }
+
+  removeCredit(uid: string) {
+    this.credits.delete(uid);
+
+    this.notifyListeners();
+  }
 }
 
 /**

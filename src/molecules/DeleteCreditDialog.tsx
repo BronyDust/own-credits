@@ -6,6 +6,7 @@ import {
 } from '@fluentui/react';
 import { FC, useState } from 'react';
 import useStorage from '../hooks/useStorage';
+import storage from '../utils/storage';
 
 interface IDeleteCreditDialogProps {
   creditUUID: string;
@@ -35,7 +36,7 @@ const DeleteCreditDialog: FC<IDeleteCreditDialogProps> = ({
         <DialogFooter>
           <PrimaryButton
             onClick={() => {
-              alert(creditUUID);
+              storage.removeCredit(creditUUID);
             }}
           >
             Удалить

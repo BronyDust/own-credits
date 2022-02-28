@@ -26,7 +26,11 @@ const DeleteCreditDialog: FC<IDeleteCreditDialogProps> = ({
 
   return (
     <>
-      <Dialog hidden={!isVisible} onDismiss={close}>
+      <Dialog
+        hidden={!isVisible}
+        dialogContentProps={{ title: 'Удалить?' }}
+        onDismiss={close}
+      >
         Вы уверены, что хотите удалить из базы запись{' '}
         <strong>{item.metaData.name}</strong> и её внутренние записи{' '}
         <span style={{ whiteSpace: 'nowrap' }}>

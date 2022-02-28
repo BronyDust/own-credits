@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import useStorage from './hooks/useStorage';
+import CreditSettings from './routes/CreditSettings';
 import CreditsTable from './routes/CreditsTable';
 import NewCredit from './routes/NewCredit';
 
@@ -18,6 +19,7 @@ const AppRouter = () => {
     <Routes>
       <Route path="/new" element={<NewCredit />} />
       <Route path="/" element={<CreditsTable />} />
+      <Route path="/credit/:id" element={<CreditSettings />} />
       <Route path="*" element={<Navigate replace to="/" />} />
     </Routes>
   );

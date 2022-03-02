@@ -19,7 +19,7 @@ const AppRouter = () => {
     <Routes>
       <Route path="/new" element={<NewCredit />} />
       <Route path="/" element={<CreditsTable />} />
-      <Route path="/credit/:id" element={<CreditSettings />} />
+      <Route path="/credit/:creditId" element={<CreditSettings />} />
       <Route path="*" element={<Navigate replace to="/" />} />
     </Routes>
   );

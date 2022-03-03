@@ -1,6 +1,5 @@
 import {
   CheckboxVisibility,
-  DefaultButton,
   DetailsList,
   IColumn,
   IconButton,
@@ -8,13 +7,13 @@ import {
   StackItem,
   Text,
   TooltipHost,
-} from '@fluentui/react';
-import { FC } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import MainSurface from '../atoms/MainSurface';
-import VerticallyCentered from '../atoms/VerticallyCentered';
-import useStorage from '../hooks/useStorage';
-import DeleteCreditDialog from '../molecules/DeleteCreditDialog';
+} from "@fluentui/react";
+import { FC } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import MainSurface from "../atoms/MainSurface";
+import VerticallyCentered from "../atoms/VerticallyCentered";
+import useStorage from "../hooks/useStorage";
+import DeleteCreditDialog from "../molecules/DeleteCreditDialog";
 
 type CreditListItem = {
   cost: number;
@@ -26,8 +25,8 @@ type CreditListItem = {
 
 const columns: IColumn[] = [
   {
-    key: 'actions',
-    name: 'Действия',
+    key: "actions",
+    name: "Действия",
     minWidth: 74,
     maxWidth: 74,
     onRender(item: CreditListItem) {
@@ -39,7 +38,7 @@ const columns: IColumn[] = [
                 <TooltipHost content="Удалить">
                   <IconButton
                     onClick={open}
-                    iconProps={{ iconName: 'Delete' }}
+                    iconProps={{ iconName: "Delete" }}
                   />
                 </TooltipHost>
               )}
@@ -48,7 +47,7 @@ const columns: IColumn[] = [
           <StackItem>
             <TooltipHost content="Открыть">
               <Link to={`/credit/${item.uid}`}>
-                <IconButton as="span" iconProps={{ iconName: 'OpenFile' }} />
+                <IconButton as="span" iconProps={{ iconName: "OpenFile" }} />
               </Link>
             </TooltipHost>
           </StackItem>
@@ -57,8 +56,8 @@ const columns: IColumn[] = [
     },
   },
   {
-    key: 'name',
-    name: 'Название / назначение кредита',
+    key: "name",
+    name: "Название / назначение кредита",
     minWidth: 250,
     maxWidth: 250,
     isResizable: true,
@@ -73,8 +72,8 @@ const columns: IColumn[] = [
     },
   },
   {
-    key: 'debt',
-    name: 'Долг',
+    key: "debt",
+    name: "Долг",
     minWidth: 200,
     onRender(item: CreditListItem) {
       return (
@@ -85,8 +84,8 @@ const columns: IColumn[] = [
     },
   },
   {
-    key: 'date',
-    name: 'Дата',
+    key: "date",
+    name: "Дата",
     minWidth: 200,
     onRender(item: CreditListItem) {
       const date = new Date(item.date);
@@ -124,19 +123,20 @@ const CreditsTable: FC = () => {
   return (
     <MainSurface>
       <Stack tokens={{ childrenGap: 10 }}>
-        <Stack.Item>
-          <Text as="h1" variant="xxLarge">
-            Ваши кредиты
-          </Text>
-        </Stack.Item>
-        <Stack.Item>
-          <DefaultButton
-            onClick={() => navigate('/new')}
-            iconProps={{ iconName: 'Add' }}
-          >
-            Добавить
-          </DefaultButton>
-        </Stack.Item>
+        <Stack tokens={{ childrenGap: 10 }} horizontal verticalAlign="center">
+          <Stack.Item>
+            <IconButton
+              onClick={() => navigate("/new")}
+              iconProps={{ iconName: "Add" }}
+            />
+          </Stack.Item>
+          <Stack.Item>
+            <Text as="h1" variant="xxLarge">
+              Ваши кредиты
+            </Text>
+          </Stack.Item>
+        </Stack>
+
         <Stack.Item>
           <DetailsList
             onItemContextMenu={(e) => {

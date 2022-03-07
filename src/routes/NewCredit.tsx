@@ -6,12 +6,12 @@ import {
   Stack,
   Text,
   TextField,
-} from '@fluentui/react';
-import { FC, FormEventHandler, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import useStorage from '../hooks/useStorage';
-import CardOnScreenCenter from '../molecules/CardOnScreenCenter';
-import storage from '../utils/storage';
+} from "@fluentui/react";
+import { FC, FormEventHandler, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useStorage from "../hooks/useStorage";
+import CardOnScreenCenter from "../molecules/CardOnScreenCenter";
+import storage from "../utils/storage";
 
 const NewCredit: FC = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -22,14 +22,14 @@ const NewCredit: FC = () => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const name = String(formData.get('name'));
-    const cost = parseFloat(String(formData.get('cost')) || '0');
+    const name = String(formData.get("name"));
+    const cost = parseFloat(String(formData.get("cost")) || "0");
 
     storage.addCredit(name, cost, {
       startDate: selectedDate,
     });
 
-    navigate('/');
+    navigate("/");
   };
 
   const dateSelectionHandler = (date: Date | null | undefined) => {
@@ -63,7 +63,7 @@ const NewCredit: FC = () => {
                 <DefaultButton
                   text="Назад"
                   type="button"
-                  onClick={() => navigate('/')}
+                  onClick={() => navigate("/")}
                 />
               )}
               <PrimaryButton text="Создать" type="submit" />

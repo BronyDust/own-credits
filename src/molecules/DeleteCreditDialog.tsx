@@ -3,10 +3,10 @@ import {
   Dialog,
   DialogFooter,
   PrimaryButton,
-} from '@fluentui/react';
-import { FC, useState } from 'react';
-import useStorage from '../hooks/useStorage';
-import storage from '../utils/storage';
+} from "@fluentui/react";
+import { FC, useState } from "react";
+import useStorage from "../hooks/useStorage";
+import storage from "../utils/storage";
 
 interface IDeleteCreditDialogProps {
   creditUUID: string;
@@ -28,12 +28,12 @@ const DeleteCreditDialog: FC<IDeleteCreditDialogProps> = ({
     <>
       <Dialog
         hidden={!isVisible}
-        dialogContentProps={{ title: 'Удалить?' }}
+        dialogContentProps={{ title: "Удалить?" }}
         onDismiss={close}
       >
-        Вы уверены, что хотите удалить из базы запись{' '}
-        <strong>{item.metaData.name}</strong> и её внутренние записи{' '}
-        <span style={{ whiteSpace: 'nowrap' }}>
+        Вы уверены, что хотите удалить из базы запись{" "}
+        <strong>{item.metaData.name}</strong> и её внутренние записи{" "}
+        <span style={{ whiteSpace: "nowrap" }}>
           ({item.paymentsCount} штук)
         </span>
         ?

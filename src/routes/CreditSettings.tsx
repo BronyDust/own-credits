@@ -1,14 +1,30 @@
-import { IconButton, Stack, StackItem, Text } from "@fluentui/react";
+import { IColumn, IconButton, Stack, StackItem, Text } from "@fluentui/react";
 import { FC, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import MainSurface from "../atoms/MainSurface";
-import useStorage from "../hooks/useStorage";
+import useCredit from "../hooks/useCredit";
 import NoCreditData from "../molecules/NoCreditData";
+
+const columns: IColumn[] = [
+  {
+    key: "name",
+    name: "Имя",
+    minWidth: 100,
+    maxWidth: 300,
+  },
+];
+
+type CreditPayment = {
+  uid: string;
+  name: string;
+  date: string;
+  cost: number;
+};
 
 const CreditSettings: FC = () => {
   const navigate = useNavigate();
-  const { creditId } = useParams();
-  const credit = useStorage((s) => (creditId ? s.get(creditId) || null : null));
+  const { creditId = "" } = useParams();
+  const credit = useCredit(creditId);
 
   const { metaData } = credit || {};
 
@@ -54,6 +70,17 @@ const CreditSettings: FC = () => {
               Создан: <strong>{startDate || "неизвестно"}</strong>
             </Text>
           </Stack>
+        </Stack>
+        <Stack horizontal tokens={{ childrenGap: 10 }}>
+          <IconButton
+            onClick={() => navigate("/")}
+            iconProps={{ iconName: "Add" }}
+          />
+          <StackItem>
+            <Text as="h2" variant="xLarge">
+              Платежи
+            </Text>
+          </StackItem>
         </Stack>
       </Stack>
     </MainSurface>

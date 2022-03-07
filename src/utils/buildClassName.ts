@@ -8,5 +8,5 @@
 export default function buildClassName(
   ...classes: (string | false | undefined)[]
 ) {
-  return classes.filter((c) => c).join(' ');
+  return classes.filter((c) => c).join(" ");
 }

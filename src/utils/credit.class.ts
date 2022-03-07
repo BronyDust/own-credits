@@ -1,5 +1,5 @@
-import { v4 as uuid4 } from 'uuid';
-import Observable from './observable.abstract';
+import { v4 as uuid4 } from "uuid";
+import Observable from "./observable.abstract";
 
 type Payment = {
   cost: number;
@@ -19,38 +19,42 @@ class Credit extends Observable<PaymentsMap> {
 
     super(payments);
 
-    this.payments = payments;
+    this._payments = payments;
     this.name = name;
     this.cost = cost;
     this.additionalInfo = additionalInfo;
   }
 
-  private payments: PaymentsMap;
+  private _payments: PaymentsMap;
+
+  get payments() {
+    return this._payments;
+  }
 
   addPayment(cost: number, date: string, description: string) {
     const uuid = uuid4();
-    this.payments.set(uuid, { cost, date, description });
+    this._payments.set(uuid, { cost, date, description });
 
     this.notifyListeners();
   }
 
   updatePayment(uuid: string, newData: Partial<Payment>) {
-    const prevState = this.payments.get(uuid);
+    const prevState = this._payments.get(uuid);
     if (!prevState) return;
 
-    this.payments.set(uuid, { ...prevState, ...newData });
+    this._payments.set(uuid, { ...prevState, ...newData });
     this.notifyListeners();
   }
 
   deletePayment(uuid: string) {
-    this.payments.delete(uuid);
+    this._payments.delete(uuid);
     this.notifyListeners();
   }
 
   get debt() {
     let debt = this.cost;
 
-    for (const payment of this.payments.values()) {
+    for (const payment of this._payments.values()) {
       debt -= payment.cost;
     }
 
@@ -66,7 +70,7 @@ class Credit extends Observable<PaymentsMap> {
   }
 
   get paymentsCount() {
-    return this.payments.size;
+    return this._payments.size;
   }
 }
 

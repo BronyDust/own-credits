@@ -1,23 +1,73 @@
-import { IColumn, IconButton, Stack, StackItem, Text } from "@fluentui/react";
+import {
+  CheckboxVisibility,
+  DetailsList,
+  IColumn,
+  IconButton,
+  Stack,
+  StackItem,
+  Text,
+  TooltipHost,
+} from "@fluentui/react";
 import { FC, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import MainSurface from "../atoms/MainSurface";
+import VerticallyCentered from "../atoms/VerticallyCentered";
 import useCredit from "../hooks/useCredit";
 import NoCreditData from "../molecules/NoCreditData";
 
 const columns: IColumn[] = [
   {
+    key: "actions",
+    name: "",
+    minWidth: 32,
+    maxWidth: 32,
+    onRender(item: CreditPayment) {
+      return (
+        <TooltipHost content="Удалить">
+          <IconButton iconProps={{ iconName: "Delete" }} />
+        </TooltipHost>
+      );
+    },
+  },
+  {
     key: "name",
     name: "Имя",
     minWidth: 100,
     maxWidth: 300,
+    onRender(item: CreditPayment) {
+      return <VerticallyCentered>{item.name}</VerticallyCentered>;
+    },
+  },
+  {
+    key: "date",
+    name: "Дата",
+    minWidth: 100,
+    maxWidth: 100,
+    onRender(item: CreditPayment) {
+      if (typeof item.date === "string")
+        return <VerticallyCentered>{item.date}</VerticallyCentered>;
+
+      return (
+        <VerticallyCentered>
+          {item.date.toLocaleDateString()}
+        </VerticallyCentered>
+      );
+    },
+  },
+  {
+    key: "cost",
+    name: "Сумма",
+    minWidth: 100,
+    onRender(item: CreditPayment) {
+      return <VerticallyCentered>{item.cost}₽</VerticallyCentered>;
+    },
   },
 ];
 
 type CreditPayment = {
   uid: string;
   name: string;
-  date: string;
+  date: Date | "N/A";
   cost: number;
 };
 
@@ -26,7 +76,7 @@ const CreditSettings: FC = () => {
   const { creditId = "" } = useParams();
   const credit = useCredit(creditId);
 
-  const { metaData } = credit || {};
+  const { metaData, payments } = credit || {};
 
   const startDate = useMemo(() => {
     const { additionalInfo } = metaData || {};
@@ -46,6 +96,33 @@ const CreditSettings: FC = () => {
       return null;
     }
   }, [metaData]);
+
+  const tableData = useMemo(() => {
+    if (!payments) return [];
+
+    const view: CreditPayment[] = [];
+
+    for (const [key, payment] of payments) {
+      const { date } = payment;
+
+      let dateView: Date | "N/A";
+
+      try {
+        dateView = new Date(date);
+      } catch {
+        dateView = "N/A";
+      }
+
+      view.push({
+        uid: key,
+        name: payment.description,
+        date: dateView,
+        cost: payment.cost,
+      });
+    }
+
+    return view;
+  }, [payments]);
 
   if (!credit) return <NoCreditData />;
 
@@ -82,6 +159,18 @@ const CreditSettings: FC = () => {
             </Text>
           </StackItem>
         </Stack>
+        <DetailsList
+          disableSelectionZone
+          items={tableData}
+          checkboxVisibility={CheckboxVisibility.hidden}
+          getKey={(item) => item.uid}
+          columns={columns}
+        />
+        {credit && (
+          <Text as="p">
+            Осталось выплатить <strong>{credit.debt}₽</strong>
+          </Text>
+        )}
       </Stack>
     </MainSurface>
   );

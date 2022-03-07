@@ -139,10 +139,6 @@ const CreditsTable: FC = () => {
 
         <Stack.Item>
           <DetailsList
-            onItemContextMenu={(e) => {
-              console.log(e);
-              return false;
-            }}
             disableSelectionZone
             items={creditsAsItems}
             checkboxVisibility={CheckboxVisibility.hidden}

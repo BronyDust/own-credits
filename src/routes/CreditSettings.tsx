@@ -24,7 +24,10 @@ const columns: IColumn[] = [
     onRender(item: CreditPayment) {
       return (
         <TooltipHost content="Удалить">
-          <IconButton iconProps={{ iconName: "Delete" }} />
+          <IconButton
+            onClick={item.selfDelete}
+            iconProps={{ iconName: "Delete" }}
+          />
         </TooltipHost>
       );
     },
@@ -69,6 +72,7 @@ type CreditPayment = {
   name: string;
   date: Date | "N/A";
   cost: number;
+  selfDelete: VoidFunction;
 };
 
 const CreditSettings: FC = () => {
@@ -76,7 +80,7 @@ const CreditSettings: FC = () => {
   const { creditId = "" } = useParams();
   const credit = useCredit(creditId);
 
-  const { metaData, payments } = credit || {};
+  const { metaData } = credit || {};
 
   const startDate = useMemo(() => {
     const { additionalInfo } = metaData || {};
@@ -98,6 +102,7 @@ const CreditSettings: FC = () => {
   }, [metaData]);
 
   const tableData = useMemo(() => {
+    const { payments } = credit || {};
     if (!payments) return [];
 
     const view: CreditPayment[] = [];
@@ -118,11 +123,16 @@ const CreditSettings: FC = () => {
         name: payment.description,
         date: dateView,
         cost: payment.cost,
+        selfDelete: () => {
+          credit?.deletePayment(key);
+        },
       });
     }
 
     return view;
-  }, [payments]);
+    // metaData changes reference on any inner Credit changing
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [credit, metaData]);
 
   if (!credit) return <NoCreditData />;
 

@@ -134,7 +134,7 @@ const CreditSettings: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [credit, metaData]);
 
-  if (!credit) return <NoCreditData />;
+  if (!credit) return <NoCreditData>Такого кредита нет</NoCreditData>;
 
   const { name } = metaData || {};
 
@@ -160,7 +160,7 @@ const CreditSettings: FC = () => {
         </Stack>
         <Stack horizontal tokens={{ childrenGap: 10 }}>
           <IconButton
-            onClick={() => navigate("/")}
+            onClick={() => navigate(`/credit/${creditId}/add-payment`)}
             iconProps={{ iconName: "Add" }}
           />
           <StackItem>

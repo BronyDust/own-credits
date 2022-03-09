@@ -3,6 +3,7 @@ import useStorage from "./hooks/useStorage";
 import CreditSettings from "./routes/CreditSettings";
 import CreditsTable from "./routes/CreditsTable";
 import NewCredit from "./routes/NewCredit";
+import NewPayment from "./routes/NewPayment";
 
 const AppRouter = () => {
   const hasCredits = useStorage((storage) => storage.size > 0);
@@ -20,6 +21,7 @@ const AppRouter = () => {
       <Route path="/new" element={<NewCredit />} />
       <Route path="/" element={<CreditsTable />} />
       <Route path="/credit/:creditId" element={<CreditSettings />} />
+      <Route path="/credit/:creditId/add-payment" element={<NewPayment />} />
       <Route path="*" element={<Navigate replace to="/" />} />
     </Routes>
   );

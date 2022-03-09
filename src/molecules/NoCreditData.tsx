@@ -2,7 +2,7 @@ import { Dialog, DialogFooter, PrimaryButton } from "@fluentui/react";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
-const NoCreditData: FC = () => {
+const NoCreditData: FC = ({ children }) => {
   const navigate = useNavigate();
 
   const goMain = () => {
@@ -11,9 +11,9 @@ const NoCreditData: FC = () => {
 
   return (
     <Dialog onDismiss={goMain} hidden={false}>
-      Такого кредита нет
+      {children}
       <DialogFooter>
-        <PrimaryButton onClick={goMain}>Назад</PrimaryButton>
+        <PrimaryButton onClick={goMain}>На главную</PrimaryButton>
       </DialogFooter>
     </Dialog>
   );
